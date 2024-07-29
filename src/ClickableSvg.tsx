@@ -26,7 +26,7 @@ const ClickableSvg: React.FC = () => {
       document.body.style.cursor = 'pointer';
       const target = event.target as SVGElement;
       console.log(target);
-      target.style.fill = `hsl(${Math.random() * 360}, 100%, 40%)`;
+      target.style.fill = `hsl(${Math.random() * 360}, 100%, 41%)`;
       target.style.fillOpacity = '0.5';
       console.log(target.id);
     };
@@ -51,6 +51,12 @@ const ClickableSvg: React.FC = () => {
       });
     };
 
+    function setOpacity(elements: any, opacity: any) {
+      elements.forEach((element: any) => {
+          element.style.fillOpacity = opacity;
+      });
+  }
+
     const pathsFront = svgFront.querySelectorAll('path');
     const rectsFront = svgFront.querySelectorAll('rect');
     const pathsBack = svgBack.querySelectorAll('path');
@@ -58,6 +64,17 @@ const ClickableSvg: React.FC = () => {
     const pathsLung = svgLung.querySelectorAll('path');
     const pathsLegs = svgLegs.querySelectorAll('path');
     const rectsAbdomen = svgAbdomen.querySelectorAll('rect');
+
+    const desiredOpacity = 0.01;
+
+
+    setOpacity(pathsFront, desiredOpacity);
+    setOpacity(rectsFront, desiredOpacity);
+    setOpacity(pathsBack, desiredOpacity);
+    setOpacity(rectsBack, desiredOpacity);
+    setOpacity(pathsLung, desiredOpacity);
+    setOpacity(pathsLegs, desiredOpacity);
+    setOpacity(rectsAbdomen, desiredOpacity);
 
     addListeners(pathsFront);
     addListeners(rectsFront);
