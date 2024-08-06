@@ -1,32 +1,26 @@
 import React, { useEffect, useRef } from 'react';
 import { ReactSVG } from 'react-svg';
-import head_front from './assets/head_front.svg';
-import head_back from './assets/head_back.svg';
-import lung from './assets/lung.svg';
+import head_left from './assets/head_left.svg';
+import lungs_front from './assets/lungs_front.svg';
+import lungs_back from './assets/lungs_back.svg';
 import abdomen from './assets/abdomen.svg';
-import legs from './assets/legs.svg';
+import female_front_for_leg_abnormality from './assets/female_front_for_leg_abnormality.svg';
 
 const ClickableSvg: React.FC = () => {
-  const svgWrapperRefFront = useRef<HTMLDivElement>(null);
-  const svgWrapperRefBack = useRef<HTMLDivElement>(null);
-  const svgWrapperRefLung = useRef<HTMLDivElement>(null);
-  const svgWrapperRefAbdomen = useRef<HTMLDivElement>(null);
-  const svgWrapperRefLegs = useRef<HTMLDivElement>(null);
+  const svgRefs = {
+    left: useRef<HTMLDivElement>(null),
+    lung: useRef<HTMLDivElement>(null),
+    lungBack: useRef<HTMLDivElement>(null),
+    abdomen: useRef<HTMLDivElement>(null),
+    femaleLegAbnormality: useRef<HTMLDivElement>(null),
+  };
 
   useEffect(() => {
-    const svgFront = svgWrapperRefFront.current?.querySelector('svg');
-    const svgBack = svgWrapperRefBack.current?.querySelector('svg');
-    const svgLung = svgWrapperRefLung.current?.querySelector('svg');
-    const svgAbdomen = svgWrapperRefAbdomen.current?.querySelector('svg');
-    const svgLegs = svgWrapperRefLegs.current?.querySelector('svg');
-
-    if (!svgFront || !svgBack || !svgLung || !svgAbdomen || !svgLegs) return;
-
     const handleMouseEnter = (event: MouseEvent) => {
       document.body.style.cursor = 'pointer';
       const target = event.target as SVGElement;
       console.log(target);
-      target.style.fill = `hsl(${Math.random() * 360}, 100%, 41%)`;
+      target.style.fill = `hsl(${Math.random() * 360}, 100%, 37%)`;
       target.style.fillOpacity = '0.5';
       console.log(target.id);
     };
@@ -51,76 +45,63 @@ const ClickableSvg: React.FC = () => {
       });
     };
 
-    function setOpacity(elements: any, opacity: any) {
-      elements.forEach((element: any) => {
-          element.style.fillOpacity = opacity;
+    const setOpacity = (elements: NodeListOf<SVGElement>, opacity: string) => {
+      elements.forEach((element) => {
+        element.style.fillOpacity = opacity;
       });
-  }
-
-    const pathsFront = svgFront.querySelectorAll('path');
-    const rectsFront = svgFront.querySelectorAll('rect');
-    const pathsBack = svgBack.querySelectorAll('path');
-    const rectsBack = svgBack.querySelectorAll('rect');
-    const pathsLung = svgLung.querySelectorAll('path');
-    const pathsLegs = svgLegs.querySelectorAll('path');
-    const rectsAbdomen = svgAbdomen.querySelectorAll('rect');
-
-    const desiredOpacity = 0.01;
-
-
-    setOpacity(pathsFront, desiredOpacity);
-    setOpacity(rectsFront, desiredOpacity);
-    setOpacity(pathsBack, desiredOpacity);
-    setOpacity(rectsBack, desiredOpacity);
-    setOpacity(pathsLung, desiredOpacity);
-    setOpacity(pathsLegs, desiredOpacity);
-    setOpacity(rectsAbdomen, desiredOpacity);
-
-    addListeners(pathsFront);
-    addListeners(rectsFront);
-    addListeners(pathsBack);
-    addListeners(rectsBack);
-    addListeners(pathsLung);
-    addListeners(pathsLegs);
-    addListeners(rectsAbdomen);
-
-    // Cleanup
-    return () => {
-      removeListeners(pathsFront);
-      removeListeners(rectsFront);
-      removeListeners(pathsBack);
-      removeListeners(rectsBack);
-      removeListeners(pathsLung);
-      removeListeners(pathsLegs);
-      removeListeners(rectsAbdomen);
     };
-  }, [svgWrapperRefFront, svgWrapperRefBack, svgWrapperRefAbdomen,svgWrapperRefLung, svgWrapperRefLegs]);
+
+    Object.values(svgRefs).forEach(ref => {
+      const svg = ref.current?.querySelector('svg');
+      if (svg) {
+        const paths = svg.querySelectorAll('path');
+        const rects = svg.querySelectorAll('rect');
+        const desiredOpacity = '0.01';
+
+        setOpacity(paths, desiredOpacity);
+        setOpacity(rects, desiredOpacity);
+
+        addListeners(paths);
+        addListeners(rects);
+      }
+    });
+
+    return () => {
+      Object.values(svgRefs).forEach(ref => {
+        const svg = ref.current?.querySelector('svg');
+        if (svg) {
+          const paths = svg.querySelectorAll('path');
+          const rects = svg.querySelectorAll('rect');
+
+          removeListeners(paths);
+          removeListeners(rects);
+        }
+      });
+    };
+  }, [svgRefs]);
 
   return (
     <>
-    <div style={{ display: 'flex', flexDirection: 'row', width: '100vw', height: '100vh', justifyContent: 'left', alignItems: 'left' }}>
-      <div ref={svgWrapperRefFront} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-        <ReactSVG src={head_front} />
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100vw', height: '100vh', justifyContent: 'left', alignItems: 'left' }}>
+        <div ref={svgRefs.left} style={{ border: '1px solid #ccc', width: '50%', height: '65%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={head_left} />
+        </div>
+        <div ref={svgRefs.lung} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={lungs_front} />
+        </div>
+        <div ref={svgRefs.lungBack} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={lungs_back} />
+        </div>
       </div>
-      <div ref={svgWrapperRefBack} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-        <ReactSVG src={head_back} />
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100vw', height: '100vh', justifyContent: 'left', alignItems: 'left' }}>
+        <div ref={svgRefs.abdomen} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={abdomen} />
+        </div>
+        <div ref={svgRefs.femaleLegAbnormality} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={female_front_for_leg_abnormality} />
+        </div>
       </div>
-      <div ref={svgWrapperRefLung} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-        <ReactSVG src={lung} />
-      </div>      
-    </div>
-    <div style={{ display: 'flex', flexDirection: 'row', width: '100vw', height: '100vh', justifyContent: 'left', alignItems: 'left' }}>
-      <div ref={svgWrapperRefAbdomen} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left'}}>
-        <ReactSVG src={abdomen} />
-      </div>
-      <div ref={svgWrapperRefLegs} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left'}}>
-        <ReactSVG src={legs} />
-      </div>
-    </div>
-     
-  
-    
-  </>
+    </>
   );
 };
 
