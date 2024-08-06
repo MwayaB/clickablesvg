@@ -21,7 +21,6 @@ const ClickableSvg: React.FC = () => {
     const handleMouseEnter = (event: MouseEvent) => {
       document.body.style.cursor = 'pointer';
       const target = event.target as SVGElement;
-      console.log(target);
       target.style.fill = `hsl(${Math.random() * 360}, 100%, 37%)`;
       target.style.fillOpacity = '0.5';
       console.log(target.id);
