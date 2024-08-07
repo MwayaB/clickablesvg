@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import head_left from './assets/head_left.svg';
 import head_right from './assets/head_right.svg'; // Import the head_right SVG
@@ -17,19 +17,22 @@ const ClickableSvg: React.FC = () => {
     femaleLegAbnormality: useRef<HTMLDivElement>(null),
   };
 
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
   useEffect(() => {
     const handleMouseEnter = (event: MouseEvent) => {
       document.body.style.cursor = 'pointer';
       const target = event.target as SVGElement;
       target.style.fill = `hsl(${Math.random() * 360}, 100%, 37%)`;
       target.style.fillOpacity = '0.5';
-      console.log(target.id);
+      setHoveredId(target.id); // Set the hovered ID
     };
 
     const handleMouseLeave = (event: MouseEvent) => {
       document.body.style.cursor = 'default';
       const target = event.target as SVGElement;
       target.style.fillOpacity = '0'; // Reset fillOpacity to default
+      setHoveredId(null); // Reset the hovered ID
     };
 
     const addListeners = (elements: NodeListOf<SVGElement>) => {
@@ -104,6 +107,9 @@ const ClickableSvg: React.FC = () => {
         <div ref={svgRefs.femaleLegAbnormality} style={{ width: '50%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
           <ReactSVG src={female_front_for_leg_abnormality} />
         </div>
+      </div>
+      <div style={{ position: 'fixed', top: '10px', left: '10px', padding: '10px', backgroundColor: 'white', border: '1px solid #ccc' }}>
+        {hoveredId ? `Hovered ID: ${hoveredId}` : 'Hover over an element'}
       </div>
     </>
   );
