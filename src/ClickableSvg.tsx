@@ -33,64 +33,69 @@ const ClickableSvg: React.FC = () => {
       const target = event.target as SVGElement;
       target.style.fill = `hsl(${Math.random() * 360}, 100%, 37%)`;
       target.style.fillOpacity = '0.5';
-      setHoveredId(target.id); // Set the hovered ID
+      setHoveredId(target.id);
     };
-
+  
     const handleMouseLeave = (event: MouseEvent) => {
       document.body.style.cursor = 'default';
       const target = event.target as SVGElement;
-      target.style.fillOpacity = '0'; // Reset fillOpacity to default
-      setHoveredId(null); // Reset the hovered ID
+      target.style.fillOpacity = '0';
+      setHoveredId(null);
     };
-
+  
     const addListeners = (elements: NodeListOf<SVGElement>) => {
       elements.forEach((element) => {
         element.addEventListener('mouseenter', handleMouseEnter);
         element.addEventListener('mouseleave', handleMouseLeave);
       });
     };
-
+  
     const removeListeners = (elements: NodeListOf<SVGElement>) => {
       elements.forEach((element) => {
         element.removeEventListener('mouseenter', handleMouseEnter);
         element.removeEventListener('mouseleave', handleMouseLeave);
       });
     };
-
+  
     const setOpacity = (elements: NodeListOf<SVGElement>, opacity: string) => {
       elements.forEach((element) => {
         element.style.fillOpacity = opacity;
       });
     };
-
-    Object.values(svgRefs).forEach(ref => {
-      const svg = ref.current?.querySelector('svg');
-      if (svg) {
-        const paths = svg.querySelectorAll('path');
-        const rects = svg.querySelectorAll('rect');
-        const desiredOpacity = '0.01';
-
-        setOpacity(paths, desiredOpacity);
-        setOpacity(rects, desiredOpacity);
-
-        addListeners(paths);
-        addListeners(rects);
-      }
-    });
-
+  
+    const updateSvgElements = () => {
+      Object.values(svgRefs).forEach(ref => {
+        const svg = ref.current?.querySelector('svg');
+        if (svg) {
+          const paths = svg.querySelectorAll('path');
+          const rects = svg.querySelectorAll('rect');
+          const desiredOpacity = '0.01';
+  
+          setOpacity(paths, desiredOpacity);
+          setOpacity(rects, desiredOpacity);
+  
+          addListeners(paths);
+          addListeners(rects);
+        }
+      });
+    };
+  
+    // Ensure SVGs are loaded before applying changes
+    setTimeout(updateSvgElements, 100); // Adjust timeout as needed
+  
     return () => {
       Object.values(svgRefs).forEach(ref => {
         const svg = ref.current?.querySelector('svg');
         if (svg) {
           const paths = svg.querySelectorAll('path');
           const rects = svg.querySelectorAll('rect');
-
+  
           removeListeners(paths);
           removeListeners(rects);
         }
       });
     };
-  }, [svgRefs]);
+  }, []);
 
   return (
     <>
