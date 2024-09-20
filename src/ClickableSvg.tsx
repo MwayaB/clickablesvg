@@ -10,6 +10,7 @@ import lower_limbs_anterior from './assets/lower_limbs_anterior.svg';
 import lower_limbs_posterior from './assets/lower_limbs_posterior.svg';
 import lungs_left_side from './assets/lungs_left_side.svg';
 import lungs_right_side from './assets/lungs_right_side.svg';
+import cannulationSites from './assets/Cannulation_Sites.svg';
 
 const ClickableSvg: React.FC = () => {
   const svgRefs = {
@@ -23,6 +24,7 @@ const ClickableSvg: React.FC = () => {
     femaleLegAbnormality: useRef<HTMLDivElement>(null),
     lowerLimbsAnterior: useRef<HTMLDivElement>(null),
     lowerLimbsPosterior: useRef<HTMLDivElement>(null),
+    cannulationSites: useRef<HTMLDivElement>(null), // New ref
   };
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -136,6 +138,9 @@ const ClickableSvg: React.FC = () => {
         <div ref={svgRefs.lowerLimbsPosterior} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
           <ReactSVG src={lower_limbs_posterior} />
         </div>
+        <div ref={svgRefs.cannulationSites} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+    <ReactSVG src={cannulationSites} />
+     </div>
       </div>
       <div style={{ position: 'fixed', top: '10px', left: '10px', padding: '10px', border: '1px solid #ccc' }}>
         {hoveredId ? `Hovered ID: ${hoveredId}` : 'Hover over an element'}
