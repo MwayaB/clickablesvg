@@ -12,6 +12,7 @@ import lungs_left_side from './assets/lungs_left_side.svg';
 import lungs_right_side from './assets/lungs_right_side.svg';
 import cannulationSites from './assets/Cannulation_Sites.svg';
 import full_body_skin_abnormality from './assets/Full_body_skin_abnormality.svg';
+import posterior_fullbody_skin_abnormality from './assets/Posterior_fullbody_skin_abnormality.svg'; // New import
 
 const ClickableSvg: React.FC = () => {
   const svgRefs = {
@@ -26,7 +27,8 @@ const ClickableSvg: React.FC = () => {
     lowerLimbsAnterior: useRef<HTMLDivElement>(null),
     lowerLimbsPosterior: useRef<HTMLDivElement>(null),
     cannulationSites: useRef<HTMLDivElement>(null),
-    fullBodySkinAbnormality: useRef<HTMLDivElement>(null), // New ref for Full Body Skin Abnormality
+    fullBodySkinAbnormality: useRef<HTMLDivElement>(null),
+    posteriorFullBodySkinAbnormality: useRef<HTMLDivElement>(null), // New ref
   };
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -144,6 +146,9 @@ const ClickableSvg: React.FC = () => {
         </div>
         <div ref={svgRefs.fullBodySkinAbnormality} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
           <ReactSVG src={full_body_skin_abnormality} />
+        </div>
+        <div ref={svgRefs.posteriorFullBodySkinAbnormality} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={posterior_fullbody_skin_abnormality} />
         </div>
       </div>
       <div style={{ position: 'fixed', top: '10px', left: '10px', padding: '10px', border: '1px solid #ccc' }}>
