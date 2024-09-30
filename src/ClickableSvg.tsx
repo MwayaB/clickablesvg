@@ -11,6 +11,7 @@ import lower_limbs_posterior from './assets/lower_limbs_posterior.svg';
 import lungs_left_side from './assets/lungs_left_side.svg';
 import lungs_right_side from './assets/lungs_right_side.svg';
 import cannulationSites from './assets/Cannulation_Sites.svg';
+import full_body_skin_abnormality from './assets/Full_body_skin_abnormality.svg';
 
 const ClickableSvg: React.FC = () => {
   const svgRefs = {
@@ -24,7 +25,8 @@ const ClickableSvg: React.FC = () => {
     femaleLegAbnormality: useRef<HTMLDivElement>(null),
     lowerLimbsAnterior: useRef<HTMLDivElement>(null),
     lowerLimbsPosterior: useRef<HTMLDivElement>(null),
-    cannulationSites: useRef<HTMLDivElement>(null), // New ref
+    cannulationSites: useRef<HTMLDivElement>(null),
+    fullBodySkinAbnormality: useRef<HTMLDivElement>(null), // New ref for Full Body Skin Abnormality
   };
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -37,34 +39,34 @@ const ClickableSvg: React.FC = () => {
       target.style.fillOpacity = '0.5';
       setHoveredId(target.id);
     };
-  
+
     const handleMouseLeave = (event: MouseEvent) => {
       document.body.style.cursor = 'default';
       const target = event.target as SVGElement;
       target.style.fillOpacity = '0';
       setHoveredId(null);
     };
-  
+
     const addListeners = (elements: NodeListOf<SVGElement>) => {
       elements.forEach((element) => {
         element.addEventListener('mouseenter', handleMouseEnter);
         element.addEventListener('mouseleave', handleMouseLeave);
       });
     };
-  
+
     const removeListeners = (elements: NodeListOf<SVGElement>) => {
       elements.forEach((element) => {
         element.removeEventListener('mouseenter', handleMouseEnter);
         element.removeEventListener('mouseleave', handleMouseLeave);
       });
     };
-  
+
     const setOpacity = (elements: NodeListOf<SVGElement>, opacity: string) => {
       elements.forEach((element) => {
         element.style.fillOpacity = opacity;
       });
     };
-  
+
     const updateSvgElements = () => {
       Object.values(svgRefs).forEach(ref => {
         const svg = ref.current?.querySelector('svg');
@@ -72,26 +74,25 @@ const ClickableSvg: React.FC = () => {
           const paths = svg.querySelectorAll('path');
           const rects = svg.querySelectorAll('rect');
           const desiredOpacity = '0.01';
-  
+
           setOpacity(paths, desiredOpacity);
           setOpacity(rects, desiredOpacity);
-  
+
           addListeners(paths);
           addListeners(rects);
         }
       });
     };
-  
-    // Ensure SVGs are loaded before applying changes
-    setTimeout(updateSvgElements, 100); // Adjust timeout as needed
-  
+
+    setTimeout(updateSvgElements, 100);
+
     return () => {
       Object.values(svgRefs).forEach(ref => {
         const svg = ref.current?.querySelector('svg');
         if (svg) {
           const paths = svg.querySelectorAll('path');
           const rects = svg.querySelectorAll('rect');
-  
+
           removeListeners(paths);
           removeListeners(rects);
         }
@@ -139,8 +140,11 @@ const ClickableSvg: React.FC = () => {
           <ReactSVG src={lower_limbs_posterior} />
         </div>
         <div ref={svgRefs.cannulationSites} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-    <ReactSVG src={cannulationSites} />
-     </div>
+          <ReactSVG src={cannulationSites} />
+        </div>
+        <div ref={svgRefs.fullBodySkinAbnormality} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={full_body_skin_abnormality} />
+        </div>
       </div>
       <div style={{ position: 'fixed', top: '10px', left: '10px', padding: '10px', border: '1px solid #ccc' }}>
         {hoveredId ? `Hovered ID: ${hoveredId}` : 'Hover over an element'}
