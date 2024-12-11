@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ReactSVG } from 'react-svg';
+import head_front from './assets/head_front.svg';
 import head_left from './assets/head_left.svg';
 import head_right from './assets/head_right.svg';
 import lungs_front from './assets/lungs_front.svg';
@@ -16,6 +17,7 @@ import posterior_fullbody_skin_abnormality from './assets/Posterior_fullbody_ski
 
 const ClickableSvg: React.FC = () => {
   const svgRefs = {
+    headFront: useRef<HTMLDivElement>(null),
     left: useRef<HTMLDivElement>(null),
     right: useRef<HTMLDivElement>(null),
     lungFront: useRef<HTMLDivElement>(null),
@@ -114,6 +116,9 @@ const ClickableSvg: React.FC = () => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', width: '100vw', height: '100vh', justifyContent: 'left', alignItems: 'left' }}>
         <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+        <div ref={svgRefs.headFront} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ReactSVG src={head_front} />
+          </div>
           <div ref={svgRefs.lungFront} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <ReactSVG src={lungs_front} />
           </div>
@@ -141,9 +146,7 @@ const ClickableSvg: React.FC = () => {
         <div ref={svgRefs.lowerLimbsPosterior} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
           <ReactSVG src={lower_limbs_posterior} />
         </div>
-        <div ref={svgRefs.cannulationSites} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-          <ReactSVG src={cannulationSites} />
-        </div>
+       
         <div ref={svgRefs.fullBodySkinAbnormality} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
           <ReactSVG src={full_body_skin_abnormality} />
         </div>
@@ -151,9 +154,13 @@ const ClickableSvg: React.FC = () => {
           <ReactSVG src={posterior_fullbody_skin_abnormality} />
         </div>
       </div>
+      <div ref={svgRefs.cannulationSites} style={{ width: '25%', height: '100%', display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+          <ReactSVG src={cannulationSites} />
+        </div>
       <div style={{ position: 'fixed', top: '10px', left: '10px', padding: '10px', border: '1px solid #ccc' }}>
         {hoveredId ? `Hovered ID: ${hoveredId}` : 'Hover over an element'}
       </div>
+
     </>
   );
 };
